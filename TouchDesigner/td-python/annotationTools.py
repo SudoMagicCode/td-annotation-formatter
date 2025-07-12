@@ -1,0 +1,80 @@
+﻿import re
+from html.parser import HTMLParser
+
+
+class annotationFormatter:
+    HEADING1 = 2
+    HEADING2 = 1.75
+    HEADING3 = 1.5
+    HEADING4 = 1.25
+
+    def __init__(self, ownerOp) -> None:
+        self.OwnerOp = ownerOp
+        self.parser = HTMLParser()
+
+        self._heading1 = ownerOp.par.Heading1
+        self._heading2 = ownerOp.par.Heading2
+        self._heading3 = ownerOp.par.Heading3
+        self._heading4 = ownerOp.par.Heading3
+
+    @property
+    def Heading1(self) -> float:
+        return self._heading1.eval()
+
+    @property
+    def Heading2(self) -> float:
+        return self._heading2.eval()
+
+    @property
+    def Heading3(self) -> float:
+        return self._heading3.eval()
+
+    @property
+    def Heading4(self) -> float:
+        return self._heading4.eval()
+
+    @property
+    def Code_color(self) -> tuple:
+        return (
+            int(self.OwnerOp.par.Coder.eval() * 255),
+            int(self.OwnerOp.par.Codeg.eval() * 255),
+            int(self.OwnerOp.par.Codeb.eval() * 255)
+        )
+
+    def FormatText(self, tdOp) -> str:
+        output = []
+        for eachLine in tdOp.text.split('\n'):
+            if '#' in eachLine:
+                header_count = eachLine.count("#")
+                header_text = ''
+                match header_count:
+                    case 1:
+                        header_text = self._addHeading(self.Heading1, eachLine)
+
+                    case 2:
+                        header_text = self._addHeading(self.Heading2, eachLine)
+
+                    case 3:
+                        header_text = self._addHeading(self.Heading3, eachLine)
+
+                    case 4:
+                        header_text = self._addHeading(self.Heading4, eachLine)
+
+                # this is a header line
+                output.append(header_text)
+            else:
+                bullet_replace: str = eachLine.replace('*', '• ')
+                code_formatting = self._check_color(bullet_replace)
+                output.append(code_formatting)
+
+        return "\n".join(output)
+
+    def _check_color(self, text: str) -> str:
+        newText = text.replace(
+            '<code>', f'{{#color{(self.Code_color)}}}')
+        resetText = newText.replace('</code>', '{#reset()}')
+        return resetText
+
+    def _addHeading(self, size: int, text: str) -> str:
+        heading_text: str = re.sub('#', '', text).strip()
+        return f'{{#scale({size});}}{heading_text}{{#reset()}}'
