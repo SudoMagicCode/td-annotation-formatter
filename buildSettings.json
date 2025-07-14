@@ -2,7 +2,7 @@
     "BUILD": "TRUE",
     "TD_VERSION": "2025.30280",
     "PROJECT_FILE": "./TouchDesigner/project.toe",
-    "COMP_NAME": "Annotation Formatter",
+    "COMP_NAME": "base_annotation_formatter",
     "BUILD_CONTENTS": "packageZip",
     "USE_TDM": true
 }
