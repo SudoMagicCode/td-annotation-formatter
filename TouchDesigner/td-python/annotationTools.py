@@ -41,9 +41,9 @@ class annotationFormatter:
             int(self.OwnerOp.par.Codeb.eval() * 255)
         )
 
-    def FormatText(self, tdOp) -> str:
+    def _format_text(self, text: str) -> str:
         output = []
-        for eachLine in tdOp.text.split('\n'):
+        for eachLine in text.split('\n'):
             if '#' in eachLine:
                 header_count = eachLine.count("#")
                 header_text = ''
@@ -68,6 +68,18 @@ class annotationFormatter:
                 output.append(code_formatting)
 
         return "\n".join(output)
+
+    def FormatTextFromOp(self, tdOp) -> str:
+        output = self._format_text(tdOp.text)
+        return output
+
+    def FormatText(self, rawText: str) -> str:
+        output = self._format_text(rawText)
+        return output
+
+    def FormatTextFromDict(self, textDict: dict, subKey: str) -> str:
+        output = self._format_text(textDict.get(subKey))
+        return output
 
     def _check_color(self, text: str) -> str:
         newText = text.replace(
