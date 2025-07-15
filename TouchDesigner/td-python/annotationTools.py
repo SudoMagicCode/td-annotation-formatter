@@ -63,9 +63,9 @@ class annotationFormatter:
                 # this is a header line
                 output.append(header_text)
             else:
-                bullet_replace: str = eachLine.replace('*', '• ')
+                bullet_replace: str = eachLine.replace('*', '• ', 1)
                 if len(eachLine) > 0 and eachLine[0] == '-':
-                    bullet_replace = eachLine.replace('-', '• ')
+                    bullet_replace = eachLine.replace('-', '• ', 1)
                 code_formatting = self._check_color(bullet_replace)
                 output.append(code_formatting)
 
