@@ -9,6 +9,7 @@ class annotationFormatter:
     HEADING4 = 1.25
 
     BULLET_SUBSTITUTION = '    • '
+    BULLET_SYMBOLS = ['-', '*']
 
     def __init__(self, ownerOp) -> None:
         self.OwnerOp = ownerOp
@@ -65,12 +66,17 @@ class annotationFormatter:
                 # this is a header line
                 output.append(header_text)
             else:
-                bullet_replace: str = eachLine.replace(
-                    '*', annotationFormatter.BULLET_SUBSTITUTION, 1)
-                if len(eachLine) > 0 and eachLine[0] == '-':
-                    bullet_replace = eachLine.replace(
-                        '-', annotationFormatter.BULLET_SUBSTITUTION, 1)
-                code_formatting = self._check_color(bullet_replace)
+                updated_text: str = eachLine
+
+                # check each line has at least one symbol in it
+                if len(eachLine) > 0:
+                    # look for bullet replacement symbols
+                    if eachLine[0] in annotationFormatter.BULLET_SYMBOLS:
+                        # replace only the first instance of that symbol with the substitution character
+                        updated_text = eachLine.replace(
+                            eachLine[0], annotationFormatter.BULLET_SUBSTITUTION, 1)
+
+                code_formatting = self._check_color(updated_text)
                 output.append(code_formatting)
 
         return "\n".join(output)
