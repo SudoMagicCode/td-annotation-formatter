@@ -8,6 +8,8 @@ class annotationFormatter:
     HEADING3 = 1.5
     HEADING4 = 1.25
 
+    BULLET_SUBSTITUTION = '    • '
+
     def __init__(self, ownerOp) -> None:
         self.OwnerOp = ownerOp
         self.parser = HTMLParser()
@@ -63,9 +65,11 @@ class annotationFormatter:
                 # this is a header line
                 output.append(header_text)
             else:
-                bullet_replace: str = eachLine.replace('*', '• ', 1)
+                bullet_replace: str = eachLine.replace(
+                    '*', annotationFormatter.BULLET_SUBSTITUTION, 1)
                 if len(eachLine) > 0 and eachLine[0] == '-':
-                    bullet_replace = eachLine.replace('-', '• ', 1)
+                    bullet_replace = eachLine.replace(
+                        '-', annotationFormatter.BULLET_SUBSTITUTION, 1)
                 code_formatting = self._check_color(bullet_replace)
                 output.append(code_formatting)
 
