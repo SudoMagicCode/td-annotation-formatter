@@ -1,6 +1,6 @@
 {
     "BUILD": "TRUE",
-    "TD_VERSION": "2025.30280",
+    "TD_VERSION": "2025.32280",
     "PROJECT_FILE": "./TouchDesigner/project.toe",
     "COMP_NAME": "base_annotation_formatter",
     "BUILD_CONTENTS": "packageZip",
